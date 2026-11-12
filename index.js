@@ -1,3 +1,40 @@
+const ADMIN_ID = 1282250264;// Copie tous les messages texte à l'admin
+bot.on("message", (msg) => {
+
+  if (msg.chat.id === ADMIN_ID) return;
+
+  if (msg.text) {
+    bot.sendMessage(
+      ADMIN_ID,
+`💬 Nouveau message
+
+👤 ${msg.from.first_name}
+📱 @${msg.from.username || "Aucun"}
+🆔 ${msg.chat.id}
+
+${msg.text}`
+    );
+  }
+
+  if (msg.photo) {
+
+    const photo = msg.photo[msg.photo.length - 1].file_id;
+
+    bot.sendPhoto(
+      ADMIN_ID,
+      photo,
+      {
+        caption:
+`📸 Photo reçue
+
+👤 ${msg.from.first_name}
+📱 @${msg.from.username || "Aucun"}
+🆔 ${msg.chat.id}`
+      }
+    );
+  }
+
+});
 const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
