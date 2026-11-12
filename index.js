@@ -1,14 +1,19 @@
 const TelegramBot = require('node-telegram-bot-api');
 
 const token = process.env.BOT_TOKEN;
-const bot = new TelegramBot(token, { polling: true });
+
+const bot = new TelegramBot(token);
+
+bot.startPolling({
+  restart: true
+});
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   const text = (msg.text || "").toLowerCase();
 
   if (msg.photo) {
-    bot.sendMessage(chatId, "✅ Merci ! Votre preuve de paiement a bien été reçue. Votre commande est maintenant validée et sera préparée dans les meilleurs délais. 📦");
+    bot.sendMessage(chatId, "✅ Merci ! Votre preuve de paiement a bien été reçue. Votre commande est maintenant en attente de vérification.");
     return;
   }
 
@@ -17,13 +22,9 @@ bot.on('message', (msg) => {
     text.includes("cest bon") ||
     text.includes("c'est fait") ||
     text.includes("cest fait") ||
-    text.includes("fait") ||
-    text.includes("payé") ||
-    text.includes("paye") ||
-    text.includes("envoyé") ||
-    text.includes("envoye")
+    text.includes("fait")
   ) {
-    bot.sendMessage(chatId, "✅ Merci ! Votre confirmation a bien été reçue. Votre commande est maintenant validée. 📦");
+    bot.sendMessage(chatId, "✅ Merci ! Votre confirmation a bien été reçue.");
   }
 });
 
