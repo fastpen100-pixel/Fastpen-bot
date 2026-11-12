@@ -46,3 +46,8 @@ bot.on("message", (msg) => {
 });
 
 console.log("Bot démarré !");
+bot.on("polling_error", console.log);
+
+bot.on("message", (msg) => {
+  console.log(msg);
+});
