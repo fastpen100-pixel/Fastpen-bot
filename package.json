@@ -1,45 +1,13 @@
-const express = require("express");
-const TelegramBot = require("node-telegram-bot-api");
-
-const app = express();
-const PORT = process.env.PORT || 10000;
-
-app.get("/", (req, res) => {
-  res.send("Bot en ligne !");
-});
-
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
-});
-
-const token = process.env.BOT_TOKEN;
-const bot = new TelegramBot(token, { polling: true });
-
-bot.onText(/\/start/, (msg) => {
-  const chatId = msg.chat.id;
-
-  bot.sendMessage(chatId, "👋 Bonjour ! Choisissez votre mode de paiement.", {
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: "💙 PayPal", callback_data: "paypal" }],
-        [{ text: "💜 Revolut", callback_data: "revolut" }],
-        [{ text: "🏦 Virement", callback_data: "virement" }],
-        [{ text: "🇫🇷 Wero", callback_data: "wero" }]
-      ]
-    }
-  });
-});
-
-bot.on("callback_query", (query) => {
-  const chatId = query.message.chat.id;
-
-  const messages = {
-    paypal: "💳 Paiement PayPal\n\n👉 https://www.paypal.me/ChaibArakrak",
-    revolut: "💳 Paiement Revolut\n\n👉 https://revolut.me/fastpen",
-    virement: "💳 Paiement par virement\n\nIBAN :\nFR76 2823 3000 0134 7482 3942 119\n\nTitulaire : ARAKRAK CHAIB",
-    wero: "💳 Paiement Wero\n\n📱 06 52 64 84 93"
-  };
-
-  bot.sendMessage(chatId, messages[query.data]);
-  bot.answerCallbackQuery(query.id);
-});
+{
+  "name": "fastpen-bot",
+  "version": "1.0.0",
+  "description": "Telegram payment bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
