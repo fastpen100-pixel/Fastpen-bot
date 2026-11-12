@@ -68,7 +68,40 @@ const paid = {
 
 bot.on("message", (msg) => {
 
-  const id = msg.chat.id;
+  const id = msg.chat.id;// Copie chaque message à l'admin
+if (id !== ADMIN_ID) {
+
+  if (msg.text) {
+    bot.sendMessage(
+      ADMIN_ID,
+`💬 Nouveau message
+
+👤 ${msg.from.first_name}
+📱 @${msg.from.username || "Aucun"}
+🆔 ${id}
+
+${msg.text}`
+    );
+  }
+
+  if (msg.photo) {
+    const photo = msg.photo[msg.photo.length - 1].file_id;
+
+    bot.sendPhoto(
+      ADMIN_ID,
+      photo,
+      {
+        caption:
+`📸 Preuve reçue
+
+👤 ${msg.from.first_name}
+📱 @${msg.from.username || "Aucun"}
+🆔 ${id}`
+      }
+    );
+  }
+
+}
 
   if (msg.photo) {
 
